@@ -1,0 +1,50 @@
+
+// Code
+// ––––––––––––––––––––––––––––––––––––––––––––––––––
+
+code, kbd, pre, samp {
+	font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+}
+
+code {
+	background: $color-tertiary;
+	border-radius: .4rem;
+	font-size: 86%;
+	margin: 0 .2rem;
+	padding: .2rem .5rem;
+	white-space: nowrap;
+}
+
+pre {
+	background: $color-tertiary;
+	border-left: .3rem solid $color-primary;
+	overflow-y: hidden;
+
+	& > code {
+		border-radius: 0;
+		display: block;
+		padding: 1rem 1.5rem;
+		white-space: pre;
+	}
+}
+
+kbd {
+	display: inline-block;
+	padding: .2rem .4rem;
+	color: #fff;
+	font-size: 90%;
+	text-align: center;
+	text-decoration: none;
+	line-height: 95%;
+	background-color: #212529;
+	border: none;
+	border-radius: .3rem;
+	user-select: none;
+	text-shadow: -1px -1px 0 rgb(70, 70, 70);
+	box-shadow: inset 0 0 1px rgb(150, 150, 150),
+              inset 0 -.05em .4em rgb(80, 80, 80),
+              0 .1em 0 rgb(30, 30, 30),
+							0 .1em .1em rgba(0, 0, 0, .3)
+	;
+	cursor: default;
+}

@@ -12,6 +12,8 @@
         <p><i class="mi mi-p mi-mana-r"></i> mi-p mi-mana-r</p>
 
         <p><span class="mi-split"><i class="mi mi-b"></i><i class="mi mi-g"></i></span> mi-split -&gt; mi-b mi-g</p>
+
+        <p><i class="ion ion-ios-albums"></i> ion ion-ios-albums-outline</p>
       </div>
 
       <div class="right-side">
@@ -39,7 +41,9 @@
 
   export default {
     name: 'landing-page',
-    components: { SystemInformation },
+    components: {
+      SystemInformation
+    },
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
@@ -49,16 +53,6 @@
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  body { font-family: 'Source Sans Pro', sans-serif; }
-
   #wrapper {
     background:
       radial-gradient(
@@ -66,9 +60,9 @@
         rgba(255, 255, 255, 1) 40%,
         rgba(229, 229, 229, .9) 100%
       );
-    height: 100vh;
+    /* width: 100vw;
+    height: 100vh; */
     padding: 60px 80px;
-    width: 100vw;
   }
 
   #logo {

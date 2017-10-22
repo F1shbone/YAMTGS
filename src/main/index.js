@@ -1,4 +1,5 @@
-import { app, BrowserWindow } from 'electron'
+import electron from 'electron'
+const {app, BrowserWindow} = electron
 
 /**
  * Set `__static` path to static files in production
@@ -18,16 +19,22 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
-    useContentSize: true,
-    width: 1000
+    minWidth: 1800,
+    minHeight: 950,
+    show: false,
+    useContentSize: true
   })
 
+  mainWindow.maximize()
   mainWindow.loadURL(winURL)
+  mainWindow.show()
 
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+  // Test
+  mainWindow.webContents.openDevTools()
 }
 
 app.on('ready', createWindow)

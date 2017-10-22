@@ -1,0 +1,64 @@
+
+// Color
+// ––––––––––––––––––––––––––––––––––––––––––––––––––
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #868e96 !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
+
+$color-initial:    $white !default;
+$color-primary:    #007bff !default;
+$color-secondary:  $gray-900 !default;
+$color-tertiary:   $gray-800 !default;
+$color-quaternary: $gray-700 !default;
+$color-quinary:    $gray-600 !default;
+
+
+$grays: () !default;
+$grays: map-merge((
+  100: $gray-100,
+  200: $gray-200,
+  300: $gray-300,
+  400: $gray-400,
+  500: $gray-500,
+  600: $gray-600,
+  700: $gray-700,
+  800: $gray-800,
+  900: $gray-900
+), $grays);
+
+$theme-colors: () !default;
+$theme-colors: map-merge((
+  initial: $color-initial,
+  primary: $color-primary,
+  secondary: $color-secondary,
+  tertiary: $color-tertiary,
+  quaternary: $color-quaternary,
+  quinary: $color-quinary
+), $theme-colors);
+
+
+// Body
+//
+// Settings for the `<body>` element.
+$body-bg:        $white !default;
+$body-color:     $color-secondary !default;
+$body-highlight: rgba(229, 229, 229, .9);
+
+// Type
+//
+// Font, line-height, and color for body text, headings, and more.
+$font-family-base: 'Source Sans Pro', 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+
+$font-size-base: 1.6rem !default; // Assumes the browser default, typically `16px`
+$font-size-lg:   1.75rem !default;
+$font-size-sm:   1.1rem !default;
+
+$border-color:   rgba(229, 229, 229, .9);

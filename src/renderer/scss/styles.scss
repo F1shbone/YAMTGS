@@ -1,1 +1,11 @@
-@import './_magic-font.scss'
+ /**
+  * Base
+  */
+@import 'milligram/milligram';
+@import 'ionicons/ionicons';
+@import 'magic-font';
+@import 'tooltip';
+
+ /**
+  * Project's components or styles
+  */
