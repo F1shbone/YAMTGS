@@ -7,20 +7,9 @@
 
       <div class="row">
         <div class="col col-25">
-          <settings-card></settings-card>
+          <settings-card />
 
-          <div class="card">
-            <div class="card-header">
-              <div class="title">Shortcuts:</div>
-            </div>
-            <div class="card-content">
-              <key-bind v-model="leave" label="Leave game"></key-bind>
-              <key-bind v-model="untap" label="Untap all"></key-bind>
-              <key-bind v-model="life" label="Set Lifepoints"></key-bind>
-              <key-bind v-model="dice" label="Roll dice"></key-bind>
-              <key-bind v-model="shuffle" label="Shuffle Library"></key-bind>
-            </div>
-          </div>
+          <settings-keybinding />
         </div>
         <!-- <div class="col">.column</div>
         <div class="col">.column</div>
@@ -32,22 +21,13 @@
 
 <script>
   import SettingsCard from './Settings/Cards'
-  import KeyBind from './Globals/KeyBind'
+  import SettingsKeybinding from './Settings/Keybindings'
 
   export default {
     name: 'settings',
     components: {
       SettingsCard,
-      KeyBind
-    },
-    data () {
-      return {
-        leave: 'ctrl + q',
-        untap: 'ctrl + u',
-        life: 'ctrl + l',
-        dice: 'ctrl + i',
-        shuffle: 'ctrl + s'
-      }
+      SettingsKeybinding
     }
   }
 </script>

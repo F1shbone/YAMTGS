@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import * as _ from 'lodash'
 
+import DB from '../../model'
+
 const SetBorder = {
   BLACK: 1,
   WHITE: 2,
@@ -38,23 +40,23 @@ class Set {
       onlineOnly: false
     })
 
+    // required
     this.name = set.name
     this.code = set.code
     this.releaseDate = set.releaseDate
-
+    this.border = this.setBorder(set.border_id || set.border)
+    this.type = this.setType(set.type_id || set.type)
+    // optional
     this.gathererCode = set.gathererCode
     this.magicCardsInfoCode = set.magicCardsInfoCode
     this.block = set.block
     this.onlineOnly = set.onlineOnly
-
-    this.border = this.setBorder(set.border_id || set.border)
-    this.type = this.setType(set.type_id || set.type)
   }
 
   static get (param) {
     param = _.isArray(param) ? _.join(param, ',') : (param || '*')
     let stmt = `SELECT ${param} FROM ${TABLENAME}`
-    let result = Vue.db.Exec(stmt)[0]
+    let result = DB.Exec(stmt)[0]
 
     if (!result) {
       return []
@@ -87,7 +89,7 @@ class Set {
   }
   static add (set) {
     if (set instanceof Set) {
-      let stmt = Vue.db.databaseHandle.prepare(`INSERT INTO ${TABLENAME} (name, code, releaseDate, gathererCode, magicCardsInfoCode, border_id, type_id, block, onlineOnly)
+      let stmt = DB.databaseHandle.prepare(`INSERT INTO ${TABLENAME} (name, code, releaseDate, gathererCode, magicCardsInfoCode, border_id, type_id, block, onlineOnly)
         VALUES (
           $name,
           $code,

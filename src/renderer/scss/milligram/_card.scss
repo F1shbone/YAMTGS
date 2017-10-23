@@ -74,6 +74,8 @@
     justify-content: flex-end;
     align-items: center;
 
+    .btn, button { margin-bottom: 0; }
+
     > .btn-block {
       margin: 0 -8px;
       width: calc(100% + 16px);
