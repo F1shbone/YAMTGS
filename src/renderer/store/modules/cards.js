@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import * as _ from 'lodash'
 
-import Set from '../db/set'
+import Set from '../db/model/set'
 
 // initial state
 const state = {

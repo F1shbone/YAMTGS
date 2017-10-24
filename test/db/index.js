@@ -21,4 +21,5 @@ global.MODELOPTIONS = {
 
 // Require all JS files in `./specs` for Mocha to consume
 require('./specs/Model.spec.js')
+require('./specs/Border.spec.js')
 require('./specs/Set.spec.js')

@@ -8,12 +8,12 @@ import router from './router'
 
 import path from 'path'
 import { remote } from 'electron'
-import model from './model'
+import DB from './store/db/db'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 
 Vue.http = Vue.prototype.$http = axios
-Vue.db = Vue.prototype.$db = model
+Vue.db = Vue.prototype.$db = DB
 
 Vue.config.productionTip = false
 

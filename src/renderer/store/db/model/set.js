@@ -1,7 +1,10 @@
-import Vue from 'vue'
 import * as _ from 'lodash'
 
-import DB from '../../model'
+import DB from '../db'
+import {
+  default as squel,
+  expr
+} from '../squel'
 
 const SetBorder = {
   BLACK: 1,
@@ -54,15 +57,18 @@ class Set {
   }
 
   static get (param) {
-    param = _.isArray(param) ? _.join(param, ',') : (param || '*')
-    let stmt = `SELECT ${param} FROM ${TABLENAME}`
-    let result = DB.Exec(stmt)[0]
+    param = param || expr
+    if (param instanceof expr.constructor) {
+      let stmt = squel
+        .select()
+        .from(TABLENAME)
+        .where(param)
+        .toString()
+      let result = DB.Exec(stmt)[0]
 
-    if (!result) {
-      return []
-    } else {
-      if (param === '*') {
-        return result.values.map((item) => {
+      // return result
+      if (result) {
+        return result.values.map(item => {
           return new Set({
             [result.columns[0]]: item[0],
             [result.columns[1]]: item[1],
@@ -77,47 +83,37 @@ class Set {
           })
         })
       } else {
-        if (result.columns.length === 1) {
-          return result.values.map((item) => {
-            return item[0]
-          })
-        } else {
-          return result.values
-        }
+        return []
       }
+    } else {
+      throw new Error(`Parameter must be of type 'squel.expr()'`)
     }
   }
+
   static add (set) {
     if (set instanceof Set) {
-      let stmt = DB.databaseHandle.prepare(`INSERT INTO ${TABLENAME} (name, code, releaseDate, gathererCode, magicCardsInfoCode, border_id, type_id, block, onlineOnly)
-        VALUES (
-          $name,
-          $code,
-          $releaseDate,
-          $gathererCode,
-          $magicCardsInfoCode,
-          $border,
-          $type,
-          $block,
-          $onlineOnly
-        )`
-      )
-      stmt.getAsObject({
-        '$name': set.name,
-        '$code': set.code,
-        '$releaseDate': set.releaseDate,
-        '$gathererCode': set.gathererCode,
-        '$magicCardsInfoCode': set.magicCardsInfoCode,
-        '$border': set.border,
-        '$type': set.type,
-        '$block': set.block,
-        '$onlineOnly': set.onlineOnly ? 1 : 0
-      })
+      let sql = squel
+        .insert()
+        .into(TABLENAME)
+        .set('name', set.name)
+        .set('code', set.code)
+        .set('releaseDate', set.releaseDate)
+        .set('gathererCode', set.gathererCode)
+        .set('magicCardsInfoCode', set.magicCardsInfoCode)
+        .set('border_id', set.border)
+        .set('type_id', set.type)
+        .set('block', set.block)
+        .set('onlineOnly', set.onlineOnly ? 1 : 0)
+        .toParam()
+
+      let stmt = DB.databaseHandle.prepare(sql.text)
+      stmt.getAsObject(sql.values)
       stmt.free()
     } else {
       throw new Error(`Data must be of Type 'Set'`)
     }
   }
+
   static set (sets) {
 
   }

@@ -1,7 +1,7 @@
 /* globals MODELOPTIONS, describe, it, expect, assert, after */
 import fs from 'fs'
 
-import DB from '../../../src/renderer/model.js'
+import DB from '../../../src/renderer/store/db/db'
 
 function cleanUp () {
   try {
@@ -21,7 +21,7 @@ describe('Model', () => {
   })
 
   it('Open', () => {
-    DB.Open(MODELOPTIONS)
+    return DB.Open(MODELOPTIONS)
       .then(() => {
         assert.isTrue(true)
       })
@@ -30,25 +30,29 @@ describe('Model', () => {
       })
   })
 
-  it('Save', (done) => {
+  it('Save', () => {
     let before = fs.statSync(MODELOPTIONS.filePath).birthtime
     before.setMilliseconds(0)
 
-    DB.Open(MODELOPTIONS)
-    .then(() => {
-      setTimeout(() => {
+    return DB.Open(MODELOPTIONS)
+      .then(() => {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve()
+          }, 1000)
+        })
+      })
+      .then(() => {
         DB.Save()
         let after = fs.statSync(MODELOPTIONS.filePath).mtime
         after.setMilliseconds(0)
 
         assert.isTrue(before < after, 'Birthdate is not different from modification Date')
-        done()
-      }, 1000)
-    })
+      })
   })
 
   it('Close', () => {
-    DB.Open(MODELOPTIONS)
+    return DB.Open(MODELOPTIONS)
       .then(() => {
         assert.doesNotThrow(() => {
           DB.Close()

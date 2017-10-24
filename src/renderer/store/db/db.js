@@ -1,44 +1,54 @@
-/* globals __static */
-
 import fs from 'fs'
 import path from 'path'
 
 import SQL from 'sql.js'
 
-class DB {
-  constructor (databaseFileName) {
-    this.schemaPath = path.join(__static, 'schema')
+import Border from './model/border'
+import Set from './model/set'
+
+class Model {
+  constructor () {
     this.databaseHandle = null
-    this.databaseFileName = databaseFileName
+    this.databaseFilePath = null
+
+    this.Border = Border
+    this.Set = Set
   }
 
-  Create (databaseFileName) {
-    let self = this
+  Create (config) {
+    config.schemaPath = path.join(config.schemaPath, 'schema')
 
-    let sqlstr = ''
-    let files = fs.readdirSync(self.schemaPath)
+    let self = this
+    let schemaString = ''
+    let files = fs.readdirSync(config.schemaPath)
+
     self.databaseHandle = new SQL.Database()
+    self.databaseFilePath = config.filePath
 
     files.forEach((filename) => {
-      sqlstr += '\n' + fs.readFileSync(path.join(self.schemaPath, filename), 'utf-8')
+      schemaString += '\n' + fs.readFileSync(path.join(config.schemaPath, filename), 'utf-8')
     })
 
-    self.databaseHandle.run(sqlstr)
+    self.databaseHandle.run(schemaString)
     self.Close()
   }
 
-  Open () {
+  Open (config) {
     let self = this
 
-    fs.stat(self.databaseFileName, (err, stats) => {
-      if (err) {
-        self.Create(self.databaseFileName)
-      }
-      try {
-        self.databaseHandle = new SQL.Database(fs.readFileSync(self.databaseFileName))
-      } catch (error) {
-        throw new Error(`Can't open database (${self.databaseFileName}) file`, error)
-      }
+    return new Promise((resolve, reject) => {
+      fs.stat(config.filePath, (err, stats) => {
+        if (err) {
+          self.Create(config)
+        }
+        try {
+          self.databaseFilePath = config.filePath
+          self.databaseHandle = new SQL.Database(fs.readFileSync(self.databaseFilePath))
+          resolve()
+        } catch (error) {
+          reject(new Error(`Can't open database (${self.databaseFileName}) file`, error))
+        }
+      })
     })
   }
 
@@ -47,7 +57,7 @@ class DB {
     try {
       let data = self.databaseHandle.export()
       let buffer = Buffer.from(data)
-      fs.writeFileSync(self.databaseFileName, buffer)
+      fs.writeFileSync(self.databaseFilePath, buffer)
     } catch (error) {
       throw new Error(`Can't save database file.`, error)
     }
@@ -62,6 +72,14 @@ class DB {
       throw new Error(`Can't close database file.`, error)
     }
   }
+
+  Exec (stmt) {
+    return this.databaseHandle.exec(stmt)
+  }
+
+  Prepare (stmt) {
+    return this.databaseHandle.prepare(stmt)
+  }
 }
 
-export default DB
+export default new Model()
