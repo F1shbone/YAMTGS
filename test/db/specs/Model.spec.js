@@ -20,43 +20,35 @@ describe('Model', () => {
     })
   })
 
-  it('Open', () => {
-    return DB.Open(MODELOPTIONS)
-      .then(() => {
-        assert.isTrue(true)
-      })
-      .catch(() => {
-        assert.isTrue(false)
-      })
+  it('Open', async () => {
+    await assert.doesNotThrow(async () => {
+      await DB.Open(MODELOPTIONS)
+    })
   })
 
-  it('Save', () => {
+  it('Save', async () => {
     let before = fs.statSync(MODELOPTIONS.filePath).birthtime
     before.setMilliseconds(0)
 
-    return DB.Open(MODELOPTIONS)
-      .then(() => {
-        return new Promise(resolve => {
-          setTimeout(() => {
-            resolve()
-          }, 1000)
-        })
-      })
-      .then(() => {
-        DB.Save()
-        let after = fs.statSync(MODELOPTIONS.filePath).mtime
-        after.setMilliseconds(0)
+    await DB.Open(MODELOPTIONS)
+    await new Promise(resolve => {
+      setTimeout(() => {
+        resolve()
+      }, 1000)
+    })
 
-        assert.isTrue(before < after, 'Birthdate is not different from modification Date')
-      })
+    DB.Save()
+    let after = fs.statSync(MODELOPTIONS.filePath).mtime
+    after.setMilliseconds(0)
+
+    assert.isTrue(before < after, 'Birthdate is not different from modification Date')
   })
 
-  it('Close', () => {
-    return DB.Open(MODELOPTIONS)
-      .then(() => {
-        assert.doesNotThrow(() => {
-          DB.Close()
-        })
-      })
+  it('Close', async () => {
+    await DB.Open(MODELOPTIONS)
+
+    assert.doesNotThrow(() => {
+      DB.Close()
+    })
   })
 })

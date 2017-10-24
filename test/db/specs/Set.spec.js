@@ -47,27 +47,24 @@ describe('Set', () => {
     })
   })
 
-  it('Get', () => {
-    return DB.Open(MODELOPTIONS)
-      .then(() => {
-        let dataset = DB.Set.get()
+  it('Get', async () => {
+    await DB.Open(MODELOPTIONS)
 
-        expect(dataset.length).to.equal(0)
-      })
+    let dataset = DB.Set.get()
+    expect(dataset.length).to.equal(0)
   })
 
-  it('Get fail', () => {
-    return DB.Open(MODELOPTIONS)
-      .then(() => {
-        assert.throws(() => {
-          Set.get({
-            name: 'unglued'
-          })
-        })
+  it('Get fail', async () => {
+    await DB.Open(MODELOPTIONS)
+
+    assert.throws(() => {
+      Set.get({
+        name: 'unglued'
       })
+    })
   })
 
-  it('Add', () => {
+  it('Add', async () => {
     let set = new Set({
       name: 'Testset',
       code: 'Testi',
@@ -76,44 +73,42 @@ describe('Set', () => {
       type: 'expansion'
     })
 
-    return DB.Open(MODELOPTIONS)
-      .then(() => {
-        assert.doesNotThrow(() => {
-          DB.Set.add(set)
+    await DB.Open(MODELOPTIONS)
 
-          let dbSet = DB.Set.get()
+    assert.doesNotThrow(() => {
+      DB.Set.add(set)
 
-          expect(dbSet.length).to.equal(1)
-          expect(dbSet[0]).to.deep.equal({
-            name: 'Testset',
-            code: 'Testi',
-            releaseDate: '10-22-2017',
-            border: 1,
-            type: 2,
-            gathererCode: null,
-            magicCardsInfoCode: null,
-            block: null,
-            onlineOnly: false
-          })
+      let dbSet = DB.Set.get()
 
-          DB.Save()
-        })
+      expect(dbSet.length).to.equal(1)
+      expect(dbSet[0]).to.deep.equal({
+        name: 'Testset',
+        code: 'Testi',
+        releaseDate: '10-22-2017',
+        border: 1,
+        type: 2,
+        gathererCode: null,
+        magicCardsInfoCode: null,
+        block: null,
+        onlineOnly: false
       })
+
+      DB.Save()
+    })
   })
 
-  it('Add fail', () => {
-    return DB.Open(MODELOPTIONS)
-      .then(() => {
-        assert.throws(() => {
-          DB.Border.add({
-            name: 'Testset',
-            code: 'Testi',
-            releaseDate: '10-22-2017',
-            border: 'black',
-            type: 'expansion'
-          })
-        })
+  it('Add fail', async () => {
+    await DB.Open(MODELOPTIONS)
+
+    assert.throws(() => {
+      DB.Set.add({
+        name: 'Testset',
+        code: 'Testi',
+        releaseDate: '10-22-2017',
+        border: 'black',
+        type: 'expansion'
       })
+    })
   })
 
   // it('Set', () => {
