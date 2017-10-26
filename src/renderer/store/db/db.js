@@ -5,6 +5,7 @@ import SQL from 'sql.js'
 
 import Border from './model/border'
 import Set from './model/set'
+import Type from './model/type'
 
 class Model {
   constructor () {
@@ -13,6 +14,7 @@ class Model {
 
     this.Border = Border
     this.Set = Set
+    this.Type = Type
   }
 
   Create (config) {

@@ -12,6 +12,11 @@ process.env.BABEL_ENV = 'test'
 
 let webpackConfig = merge(baseConfig, {
   devtool: '#inline-source-map',
+  resolveLoader: {
+    alias: {
+      'scss-loader': 'sass-loader'
+    }
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"testing"'

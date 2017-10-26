@@ -6,14 +6,14 @@ import utils from '../utils'
 
 import DB from '../db'
 
-const TABLENAME = 'Border'
+const TABLENAME = 'Type'
 
-class Border {
-  constructor (border) {
+class Type {
+  constructor (type) {
     // required
-    this.id = border.id
-    this.name = border.name
-    this.display = border.display
+    this.id = type.id
+    this.name = type.name
+    this.display = type.display
   }
 
   static get (param) {
@@ -37,14 +37,14 @@ class Border {
     }
   }
 
-  static add (border) {
-    if (border instanceof this) {
+  static add (type) {
+    if (type instanceof this) {
       let sql = squel
         .insert()
         .into(TABLENAME)
         .setFields({
-          'name': border.name,
-          'display': border.display
+          'name': type.name,
+          'display': type.display
         })
         .toParam()
 
@@ -52,9 +52,9 @@ class Border {
       stmt.getAsObject(sql.values)
       stmt.free()
     } else {
-      throw new Error(`Parameter must be of type 'Border'`)
+      throw new Error(`Parameter must be of type 'Type'`)
     }
   }
 }
 
-export default Border
+export default Type

@@ -3,13 +3,12 @@ import fs from 'fs'
 
 import DB from '../../../src/renderer/store/db/db'
 
-function cleanUp () {
+after(function () {
   try {
     DB.Close()
     fs.unlinkSync(MODELOPTIONS.filePath)
   } catch (e) { }
-}
-after(cleanUp)
+})
 
 describe('Model', () => {
   it('Create', () => {
@@ -32,9 +31,7 @@ describe('Model', () => {
 
     await DB.Open(MODELOPTIONS)
     await new Promise(resolve => {
-      setTimeout(() => {
-        resolve()
-      }, 1000)
+      setTimeout(() => { resolve() }, 1000)
     })
 
     DB.Save()

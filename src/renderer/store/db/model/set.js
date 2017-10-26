@@ -1,42 +1,21 @@
 import * as _ from 'lodash'
-
-import DB from '../db'
 import {
   default as squel,
   expr
 } from '../squel'
+import utils from '../utils'
 
-const SetBorder = {
-  BLACK: 1,
-  WHITE: 2,
-  SILVER: 3
-}
-
-const SetType = {
-  CORE: 1,
-  EXPANSION: 2,
-  REPRINT: 3,
-  BOX: 4,
-  UN: 5,
-  FROM_THE_VAULT: 6,
-  PREMIUM_DECK: 7,
-  DUEL_DECK: 8,
-  STARTER: 9,
-  COMMANDER: 10,
-  PLANECHASE: 11,
-  ARCHENEMY: 12,
-  PROMO: 13,
-  VANGUARD: 14,
-  MASTERS: 15,
-  CONSPIRACY: 16,
-  MASTERPIECE: 17
-}
+import DB from '../db'
+import Border from './border'
+import Type from './type'
 
 const TABLENAME = 'Sets'
 
 class Set {
   constructor (set) {
     _.defaults(set, {
+      border: new Border({ id: null, name: null, display: null }),
+      type: new Type({ id: null, name: null, display: null }),
       gathererCode: null,
       magicCardsInfoCode: null,
       block: null,
@@ -47,13 +26,13 @@ class Set {
     this.name = set.name
     this.code = set.code
     this.releaseDate = set.releaseDate
-    this.border = this.setBorder(set.border_id || set.border)
-    this.type = this.setType(set.type_id || set.type)
+    this.border = new Border(set.border)
+    this.type = new Type(set.type)
     // optional
     this.gathererCode = set.gathererCode
     this.magicCardsInfoCode = set.magicCardsInfoCode
     this.block = set.block
-    this.onlineOnly = set.onlineOnly
+    this.onlineOnly = (Boolean)(set.onlineOnly)
   }
 
   static get (param) {
@@ -61,27 +40,26 @@ class Set {
     if (param instanceof expr.constructor) {
       let stmt = squel
         .select()
-        .from(TABLENAME)
+        .from(TABLENAME, 'S')
+        .field('S.*')
+        .fields({
+          'B.id': 'border.id',
+          'B.name': 'border.name',
+          'B.display': 'border.display'
+        })
+        .fields({
+          'T.id': 'type.id',
+          'T.name': 'type.name',
+          'T.display': 'type.display'
+        })
+        .join('Border', 'B', 'S.border_id = B.id')
+        .join('Type', 'T', 'S.type_id = T.id')
         .where(param)
         .toString()
       let result = DB.Exec(stmt)[0]
 
-      // return result
       if (result) {
-        return result.values.map(item => {
-          return new Set({
-            [result.columns[0]]: item[0],
-            [result.columns[1]]: item[1],
-            [result.columns[2]]: item[2],
-            [result.columns[3]]: item[3],
-            [result.columns[4]]: item[4],
-            [result.columns[5]]: item[5],
-            [result.columns[6]]: item[6],
-            [result.columns[7]]: item[7],
-            [result.columns[8]]: item[8],
-            [result.columns[9]]: (Boolean)(item[9])
-          })
-        })
+        return utils.toObject(result).map(item => new this(item))
       } else {
         return []
       }
@@ -90,20 +68,31 @@ class Set {
     }
   }
 
-  static add (set) {
-    if (set instanceof Set) {
+  static add (set, border, type) {
+    if (border) {
+      let expr = squel.expr().and(`name = '${border}'`)
+      set.border = DB.Border.get(expr)[0]
+    }
+    if (type) {
+      let expr = squel.expr().and(`name = '${type}'`)
+      set.type = DB.Type.get(expr)[0]
+    }
+
+    if (set instanceof this) {
       let sql = squel
         .insert()
         .into(TABLENAME)
-        .set('name', set.name)
-        .set('code', set.code)
-        .set('releaseDate', set.releaseDate)
-        .set('gathererCode', set.gathererCode)
-        .set('magicCardsInfoCode', set.magicCardsInfoCode)
-        .set('border_id', set.border)
-        .set('type_id', set.type)
-        .set('block', set.block)
-        .set('onlineOnly', set.onlineOnly ? 1 : 0)
+        .setFields({
+          'name': set.name,
+          'code': set.code,
+          'releaseDate': set.releaseDate,
+          'gathererCode': set.gathererCode,
+          'magicCardsInfoCode': set.magicCardsInfoCode,
+          'border_id': set.border.id,
+          'type_id': set.type.id,
+          'block': set.block,
+          'onlineOnly': set.onlineOnly ? 1 : 0
+        })
         .toParam()
 
       let stmt = DB.databaseHandle.prepare(sql.text)
@@ -117,23 +106,6 @@ class Set {
   static set (sets) {
 
   }
-
-  setBorder (border) {
-    if (!isNaN(parseInt(border))) {
-      return parseInt(border)
-    } else {
-      return SetBorder[border.toUpperCase()]
-    }
-  }
-  setType (type) {
-    if (!isNaN(parseInt(type))) {
-      return parseInt(type)
-    } else {
-      return SetType[type.toUpperCase()]
-    }
-  }
 }
 
 export default Set
-
-export { SetBorder, SetType }
