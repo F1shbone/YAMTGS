@@ -35,18 +35,16 @@ let webConfig = {
         exclude: /node_modules/
       },
       {
-        test: /\.scss$/,
-        use: 'scss-loader'
-      },
-      {
         test: /\.vue$/,
         use: {
           loader: 'vue-loader',
           options: {
             extractCSS: true,
             loaders: {
-              sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-              scss: 'vue-style-loader!css-loader!sass-loader'
+              // sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
+              // scss: 'vue-style-loader!css-loader!sass-loader'
+              sass: ['vue-style-loader', 'css-loader', 'sass-loader?indentedSyntax=1'],
+              scss: ['vue-style-loader', 'css-loader', 'sass-loader']
             }
           }
         }
@@ -100,7 +98,7 @@ let webConfig = {
       '@': path.join(__dirname, '../src/renderer'),
       'vue$': 'vue/dist/vue.esm.js'
     },
-    extensions: ['.js', '.vue', '.json', '.css']
+    extensions: ['.js', '.vue', '.json', '.css', '.scss']
   },
   target: 'web'
 }

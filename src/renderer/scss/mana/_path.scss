@@ -1,0 +1,13 @@
+@font-face {
+  font-family: 'Mana';
+  src: url('#{$ms-font-path}/mana.woff?v=#{$ms-version}') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MPlantin';
+  src: url( '#{$ms-font-path}/mplantin.woff?v=#{$ms-version}') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}

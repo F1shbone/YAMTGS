@@ -1,0 +1,187 @@
+/**
+ * Mana cost styles
+ */
+
+.#{$ms-prefix}-cost {
+  // Base cost styles
+  background-color: #BEB9B2;
+  border-radius: 1em;
+  color: #111;
+  font-size: 0.95em;
+  width: 1.3em;
+  height: 1.3em;
+  line-height: 1.35em;
+  text-align: center;
+
+  // Single symbols
+  &.#{$ms-prefix}-w,
+  &.#{$ms-prefix}-wp {
+    background-color: #F0F2C0;
+  }
+  &.#{$ms-prefix}-u,
+  &.#{$ms-prefix}-up {
+    background-color: #B5CDE3;
+  }
+  &.#{$ms-prefix}-b,
+  &.#{$ms-prefix}-bp {
+    background-color: #ACA29A;
+  }
+  &.#{$ms-prefix}-r,
+  &.#{$ms-prefix}-rp {
+    background-color: #DB8664;
+  }
+  &.#{$ms-prefix}-g,
+  &.#{$ms-prefix}-gp {
+    background-color: #93B483;
+  }
+
+  // Split symbols
+  &.#{$ms-prefix}-wu {
+    background: #edf2b0; // Old browsers
+    background: linear-gradient(135deg, #edf2b0 0%, #edf2b0 50%, #a6c1dd 50%, #a6c1dd 100%); // W3C
+  }
+  &.#{$ms-prefix}-wb {
+    background: #edf2b0; // Old browsers
+    background: linear-gradient(135deg, #edf2b0 0%, #edf2b0 50%, #9c9188 50%, #9c9188 100%); // W3C
+  }
+  &.#{$ms-prefix}-ub {
+    background: #a6c1dd; // Old browsers
+    background: linear-gradient(135deg, #a6c1dd 0%, #a6c1dd 50%, #9c9188 50%, #9c9188 100%); // W3C
+  }
+  &.#{$ms-prefix}-ur {
+    background: #a6c1dd; // Old browsers
+    background: linear-gradient(135deg, #a6c1dd 0%, #a6c1dd 50%, #db8664 50%, #db8664 100%); // W3C
+  }
+  &.#{$ms-prefix}-br {
+    background: #aca29a; // Old browsers
+    background: linear-gradient(135deg, #aca29a 0%, #aca29a 50%, #db8664 50%, #db8664 100%); // W3C
+  }
+  &.#{$ms-prefix}-bg {
+    background: #aca29a; // Old browsers
+    background: linear-gradient(135deg, #aca29a 0%, #aca29a 50%, #93b483 50%, #93b483 100%); // W3C
+  }
+  &.#{$ms-prefix}-rw {
+    background: #db8664; // Old browsers
+    background: linear-gradient(135deg, #db8664 0%, #db8664 50%, #edf2b0 50%, #edf2b0 100%); // W3C
+  }
+  &.#{$ms-prefix}-rg {
+    background: #db8664; // Old browsers
+    background: linear-gradient(135deg, #db8664 0%, #db8664 50%, #93b483 50%, #93b483 100%); // W3C
+  }
+  &.#{$ms-prefix}-gw {
+    background: #93b483; // Old browsers
+    background: linear-gradient(135deg, #93b483 0%, #93b483 50%, #edf2b0 50%, #edf2b0 100%); // W3C
+  }
+  &.#{$ms-prefix}-gu {
+    background: #93b483; // Old browsers
+    background: linear-gradient(135deg, #93b483 0%, #93b483 50%, #b5cde3 50%, #b5cde3 100%); // W3C
+  }
+  &.#{$ms-prefix}-#{'2w'} {
+    background: #beb9b2; // Old browsers
+    background: linear-gradient(135deg, #beb9b2 0%, #beb9b2 50%, #edf2b0 50%, #edf2b0 100%); // W3C
+  }
+  &.#{$ms-prefix}-#{'2u'} {
+    background: #beb9b2; // Old browsers
+    background: linear-gradient(135deg, #beb9b2 0%, #beb9b2 50%, #b5cde3 50%, #b5cde3 100%); // W3C
+  }
+  &.#{$ms-prefix}-#{'2b'} {
+    background: #beb9b2; // Old browsers
+    background: linear-gradient(135deg, #beb9b2 0%, #beb9b2 50%, #9c9188 50%, #9c9188 100%); // W3C
+  }
+  &.#{$ms-prefix}-#{'2r'} {
+    background: #beb9b2; // Old browsers
+    background: linear-gradient(135deg, #beb9b2 0%, #beb9b2 50%, #db8664 50%, #db8664 100%); // W3C
+  }
+  &.#{$ms-prefix}-#{'2g'} {
+    background: #beb9b2; // Old browsers
+    background: linear-gradient(135deg, #beb9b2 0%, #beb9b2 50%, #93b483 50%, #93b483 100%); // W3C
+  }
+
+  // Phyrexian mana and size increases
+  &.#{$ms-prefix}-p::before,
+  &.#{$ms-prefix}-wp::before,
+  &.#{$ms-prefix}-up::before,
+  &.#{$ms-prefix}-bp::before,
+  &.#{$ms-prefix}-rp::before,
+  &.#{$ms-prefix}-gp::before {
+    display: inline-block;
+    transform: scale( 1.2, 1.2);
+  }
+
+  // Alternate tap
+  &.#{$ms-prefix}-tap-alt::before {
+    display: inline-block;
+    transform: scale( 1.2, 1.2);
+    padding-left: .06em;
+    padding-bottom: 0.10em;
+  }
+
+  // Snow mana
+  &.#{$ms-prefix}-s::before {
+    color: #fff;
+    font-size: 0.85em;
+    top: -0.05em;
+    position: relative;
+    display: inline-block;
+  }
+  &.#{$ms-prefix}-s::after {
+    //text-shadow: -1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, 1px 1px 0 #fff;
+    content: "\e619";
+    position: absolute;
+    color: #333;
+    margin-left: -0.9em;
+    font-size: 1.1em;
+  }
+
+  // Tap symbols
+  &.#{$ms-prefix}-untap {
+    background-color: #111;
+    color: #fff;
+  }
+
+  // Shadow
+  &.#{$ms-prefix}-shadow {
+    box-shadow: -0.06em 0.07em 0 #111, 0 0.06em 0 #111;
+    &.#{$ms-prefix}-untap {
+      box-shadow: -0.06em 0.07em 0 #fff, 0 0.06em 0 #fff;
+    }
+  }
+}
+
+
+/**
+ * Split costs
+ */
+.#{$ms-prefix}-split {
+  position: relative;
+  width: 1.3em;
+  height: 1.3em;
+
+  &::before,
+  &::after {
+    font-size: 0.55em !important;
+    position: absolute;
+  }
+
+  &::before {
+    top: -0.38em;
+    left: 0.28em;
+  }
+  &::after {
+    top: 0.5em;
+    left: 1.0em;
+  }
+}
+
+
+/**
+ * Half costs
+ */
+.#{$ms-prefix}-half { clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%); }
+
+
+/**
+ * Un-set costs
+ */
+.#{$ms-prefix}-#{'100'}     { width: 2.4em; }
+.#{$ms-prefix}-#{'1000000'} { width: 5.4em; }
