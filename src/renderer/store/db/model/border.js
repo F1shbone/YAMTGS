@@ -18,42 +18,48 @@ class Border {
 
   static get (param) {
     param = param || expr
-    if (param instanceof expr.constructor) {
-      let stmt = squel
-        .select()
-        .from(TABLENAME)
-        .where(param)
-        .toString()
-      let result = DB.Exec(stmt)[0]
 
-      // return result
-      if (result) {
-        return utils.toObject(result).map(item => new this(item))
+    return new Promise((resolve, reject) => {
+      if (param instanceof expr.constructor) {
+        let stmt = squel
+          .select()
+          .from(TABLENAME)
+          .where(param)
+          .toString()
+        let result = DB.Exec(stmt)[0]
+
+        // return result
+        if (result) {
+          resolve(utils.toObject(result).map(item => new this(item)))
+        } else {
+          resolve([])
+        }
       } else {
-        return []
+        reject(new Error(`Parameter must be of type 'squel.expr()'`))
       }
-    } else {
-      throw new Error(`Parameter must be of type 'squel.expr()'`)
-    }
+    })
   }
 
   static add (border) {
-    if (border instanceof this) {
-      let sql = squel
-        .insert()
-        .into(TABLENAME)
-        .setFields({
-          'name': border.name,
-          'display': border.display
-        })
-        .toParam()
+    return new Promise((resolve, reject) => {
+      if (border instanceof this) {
+        let sql = squel
+          .insert()
+          .into(TABLENAME)
+          .setFields({
+            'name': border.name,
+            'display': border.display
+          })
+          .toParam()
 
-      let stmt = DB.databaseHandle.prepare(sql.text)
-      stmt.getAsObject(sql.values)
-      stmt.free()
-    } else {
-      throw new Error(`Parameter must be of type 'Border'`)
-    }
+        let stmt = DB.databaseHandle.prepare(sql.text)
+        stmt.getAsObject(sql.values)
+        stmt.free()
+        resolve('success')
+      } else {
+        reject(new Error(`Parameter must be of type 'Border'`))
+      }
+    })
   }
 }
 

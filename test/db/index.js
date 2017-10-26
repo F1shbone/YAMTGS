@@ -10,10 +10,13 @@ require('babel-register')({
 
 // Attach Chai APIs to global scope
 const path = require('path')
-const { expect, should, assert } = require('chai')
-global.expect = expect
-global.should = should
-global.assert = assert
+const chai = require('chai')
+
+chai.use(require('chai-as-promised'))
+
+global.expect = chai.expect
+global.assert = chai.assert
+global.should = chai.should()
 global.MODELOPTIONS = {
   filePath: path.join(__dirname, '..', 'data.db'),
   schemaPath: 'static'

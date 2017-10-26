@@ -48,18 +48,16 @@ describe('Set', () => {
   it('Get', async () => {
     await DB.Open(MODELOPTIONS)
 
-    let dataset = DB.Set.get()
+    let dataset = await DB.Set.get()
     expect(dataset.length).to.equal(0)
   })
 
   it('Get fail', async () => {
     await DB.Open(MODELOPTIONS)
 
-    assert.throws(() => {
-      Set.get({
-        name: 'unglued'
-      })
-    })
+    await DB.Set.get({
+      name: 'unglued'
+    }).should.be.rejectedWith(Error)
   })
 
   it('Add', async () => {
@@ -84,67 +82,26 @@ describe('Set', () => {
     })
 
     await DB.Open(MODELOPTIONS)
+    await DB.Set.add(set)
 
-    assert.doesNotThrow(() => {
-      DB.Set.add(set)
+    let dbSet = await DB.Set.get()
 
-      let dbSet = DB.Set.get()
+    expect(dbSet.length).to.equal(1)
+    expect(dbSet[0]).to.deep.equal(set)
 
-      expect(dbSet.length).to.equal(1)
-      expect(dbSet[0]).to.deep.equal(set)
-
-      DB.Save()
-    })
-  })
-
-  it('Add border/type name', async () => {
-    let set = new Set({
-      name: 'Testset 2',
-      code: 'Testi2',
-      releaseDate: '10-22-2017',
-      gathererCode: null,
-      magicCardsInfoCode: null,
-      block: null,
-      onlineOnly: false
-    })
-
-    await DB.Open(MODELOPTIONS)
-
-    assert.doesNotThrow(() => {
-      DB.Set.add(set, 'white', 'core')
-
-      let dbSet = DB.Set.get()
-
-      set.border = new Border({
-        id: 1,
-        name: 'white',
-        display: 'White'
-      })
-      set.type = new Type({
-        id: 1,
-        name: 'core',
-        display: 'Core'
-      })
-
-      expect(dbSet.length).to.equal(2)
-      expect(dbSet[1]).to.deep.equal(set)
-
-      DB.Save()
-    })
+    DB.Save()
   })
 
   it('Add fail', async () => {
     await DB.Open(MODELOPTIONS)
 
-    assert.throws(() => {
-      DB.Set.add({
-        name: 'Testset',
-        code: 'Testi',
-        releaseDate: '10-22-2017',
-        border: 'black',
-        type: 'expansion'
-      })
-    })
+    await DB.Set.add({
+      name: 'Testset',
+      code: 'Testi',
+      releaseDate: '10-22-2017',
+      border: 'black',
+      type: 'expansion'
+    }).should.be.rejectedWith(Error)
   })
 
   // it('Set', () => {

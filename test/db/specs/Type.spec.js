@@ -16,7 +16,7 @@ describe('Type', () => {
 
   it('Get', async () => {
     await DB.Open(MODELOPTIONS)
-    let result = DB.Type.get()
+    let result = await DB.Type.get()
 
     expect(result.length).to.equal(17)
   })
@@ -24,21 +24,19 @@ describe('Type', () => {
   it('Get fail', async () => {
     await DB.Open(MODELOPTIONS)
 
-    assert.throws(() => {
-      Type.get({
-        name: 'core'
-      })
-    })
+    await DB.Type.get({
+      name: 'core'
+    }).should.be.rejectedWith(Error)
   })
 
   it('Add', async () => {
     await DB.Open(MODELOPTIONS)
 
-    DB.Type.add(new Type({
+    await DB.Type.add(new Type({
       name: 'orange',
       display: 'Orange'
     }))
-    let result = DB.Type.get()
+    let result = await DB.Type.get()
 
     expect(result.length).to.equal(18)
     expect(result[17]).to.deep.equal({
@@ -51,11 +49,9 @@ describe('Type', () => {
   it('Add fail', async () => {
     await DB.Open(MODELOPTIONS)
 
-    assert.throws(() => {
-      DB.Type.add({
-        name: 'orange',
-        display: 'Orange'
-      })
-    })
+    await DB.Type.add({
+      name: 'orange',
+      display: 'Orange'
+    }).should.be.rejectedWith(Error)
   })
 })
