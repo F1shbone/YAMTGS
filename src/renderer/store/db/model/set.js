@@ -6,8 +6,8 @@ import {
 import utils from '../utils'
 
 import DB from '../db'
-import Border from './border'
-import Type from './type'
+import Border from './setBorder'
+import Type from './setType'
 
 const TABLENAME = 'Sets'
 
@@ -33,6 +33,9 @@ class Set {
     this.onlineOnly = (Boolean)(set.onlineOnly)
   }
 
+  static get Border () { return Border }
+  static get Type () { return Type }
+
   static get (param) {
     param = param || expr
 
@@ -52,8 +55,8 @@ class Set {
             'T.name': 'type.name',
             'T.display': 'type.display'
           })
-          .join('Border', 'B', 'S.border_id = B.id')
-          .join('Type', 'T', 'S.type_id = T.id')
+          .join('SetBorder', 'B', 'S.border_id = B.id')
+          .join('SetType', 'T', 'S.type_id = T.id')
           .where(param)
           .toString()
         let result = DB.Exec(stmt)[0]

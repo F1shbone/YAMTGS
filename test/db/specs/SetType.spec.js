@@ -1,8 +1,8 @@
 /* globals MODELOPTIONS, describe, it, expect, assert */
 import DB from '../../../src/renderer/store/db/db'
-import Type from '../../../src/renderer/store/db/model/type'
+import Type from '../../../src/renderer/store/db/model/setType'
 
-describe('Type', () => {
+describe('SetType', () => {
   it('Constructor', () => {
     let expected = {
       id: 123,
@@ -16,7 +16,7 @@ describe('Type', () => {
 
   it('Get', async () => {
     await DB.Open(MODELOPTIONS)
-    let result = await DB.Type.get()
+    let result = await DB.Set.Type.get()
 
     expect(result.length).to.equal(17)
   })
@@ -24,7 +24,7 @@ describe('Type', () => {
   it('Get fail', async () => {
     await DB.Open(MODELOPTIONS)
 
-    await DB.Type.get({
+    await DB.Set.Type.get({
       name: 'core'
     }).should.be.rejectedWith(Error)
   })
@@ -32,11 +32,11 @@ describe('Type', () => {
   it('Add', async () => {
     await DB.Open(MODELOPTIONS)
 
-    await DB.Type.add(new Type({
+    await DB.Set.Type.add(new Type({
       name: 'orange',
       display: 'Orange'
     }))
-    let result = await DB.Type.get()
+    let result = await DB.Set.Type.get()
 
     expect(result.length).to.equal(18)
     expect(result[17]).to.deep.equal({
@@ -49,7 +49,7 @@ describe('Type', () => {
   it('Add fail', async () => {
     await DB.Open(MODELOPTIONS)
 
-    await DB.Type.add({
+    await DB.Set.Type.add({
       name: 'orange',
       display: 'Orange'
     }).should.be.rejectedWith(Error)

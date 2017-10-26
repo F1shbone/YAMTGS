@@ -1,8 +1,8 @@
 /* globals MODELOPTIONS, describe, it, expect, assert */
 import DB from '../../../src/renderer/store/db/db'
-import Border from '../../../src/renderer/store/db/model/border'
+import Border from '../../../src/renderer/store/db/model/setBorder'
 
-describe('Border', () => {
+describe('SetBorder', () => {
   it('Constructor', () => {
     let expected = {
       id: 123,
@@ -16,7 +16,7 @@ describe('Border', () => {
 
   it('Get', async () => {
     await DB.Open(MODELOPTIONS)
-    let result = await DB.Border.get()
+    let result = await DB.Set.Border.get()
 
     expect(result.length).to.equal(3)
   })
@@ -24,7 +24,7 @@ describe('Border', () => {
   it('Get fail', async () => {
     await DB.Open(MODELOPTIONS)
 
-    await DB.Border.get({
+    await DB.Set.Border.get({
       name: 'black'
     }).should.be.rejectedWith(Error)
   })
@@ -32,11 +32,11 @@ describe('Border', () => {
   it('Add', async () => {
     await DB.Open(MODELOPTIONS)
 
-    await DB.Border.add(new Border({
+    await DB.Set.Border.add(new Border({
       name: 'orange',
       display: 'Orange'
     }))
-    let result = await DB.Border.get()
+    let result = await DB.Set.Border.get()
 
     expect(result.length).to.equal(4)
     expect(result[3]).to.deep.equal({
@@ -49,7 +49,7 @@ describe('Border', () => {
   it('Add fail', async () => {
     await DB.Open(MODELOPTIONS)
 
-    await DB.Border.add({
+    await DB.Set.Border.add({
       name: 'orange',
       display: 'Orange'
     }).should.be.rejectedWith(Error)

@@ -3,9 +3,11 @@ import * as _ from 'lodash'
 
 import Set from '../db/model/set'
 
+const SETBLACKLIST = [ 'UNH', 'UGL' ]
+
 // initial state
 const state = {
-  sets: null
+  sets: []
 }
 
 // getters
@@ -15,31 +17,31 @@ const getters = {
 
 // actions
 const actions = {
-  getSets ({ commit }) {
-    commit('setSets', {
-      sets: Vue.db.Set.get()
-    })
+  async getSets ({ commit }) {
+    let sets = await Vue.db.Set.get()
+    commit('setSets', { sets: sets })
   },
-  updateSets ({ commit, state }) {
-    Vue.http
-      .get('https://mtgjson.com/json/AllSets.json')
-      .then((response) => {
-        var existingSets = Vue.db.Set.get([ 'code' ])
-        _.forEach(response.data, (val, key) => {
-          if (existingSets.indexOf(key) === -1) {
-            let set = new Set(val)
-            Vue.db.Set.add(set)
-            commit('addSet', {
-              set: set
-            })
-          }
-        })
+  async updateSets ({ commit, state }) {
+    let response = await Vue.http.get('https://mtgjson.com/json/AllSets.json')
+    let existingSets = await Vue.db.Set.get()
+    let borders = await Vue.db.Set.Border.get()
+    let types = await Vue.db.Set.Type.get()
 
-        Vue.db.Save()
-      })
-      .catch((err) => {
-        console.error(err)
-      })
+    existingSets = existingSets.map(item => { return item.code })
+    existingSets = _.concat(existingSets, SETBLACKLIST)
+
+    _.forEach(response.data, async (val, key) => {
+      if (existingSets.indexOf(key) === -1) {
+        val.border = _.find(borders, { name: val.border })
+        val.type = _.find(types, { name: val.type })
+
+        let set = new Set(val)
+        await Vue.db.Set.add(set)
+        commit('addSet', { set: set })
+      }
+    })
+
+    Vue.db.Save()
   }
 }
 

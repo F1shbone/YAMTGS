@@ -6,9 +6,9 @@ import utils from '../utils'
 
 import DB from '../db'
 
-const TABLENAME = 'Border'
+const TABLENAME = 'SetBorder'
 
-class Border {
+class SetBorder {
   constructor (border) {
     // required
     this.id = border.id
@@ -57,10 +57,10 @@ class Border {
         stmt.free()
         resolve('success')
       } else {
-        reject(new Error(`Parameter must be of type 'Border'`))
+        reject(new Error(`Parameter must be of type 'SetBorder'`))
       }
     })
   }
 }
 
-export default Border
+export default SetBorder

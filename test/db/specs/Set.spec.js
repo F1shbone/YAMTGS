@@ -1,8 +1,8 @@
 /* globals MODELOPTIONS, describe, it, expect, assert */
 import DB from '../../../src/renderer/store/db/db'
 import Set from '../../../src/renderer/store/db/model/set'
-import Border from '../../../src/renderer/store/db/model/border'
-import Type from '../../../src/renderer/store/db/model/type'
+import Border from '../../../src/renderer/store/db/model/setBorder'
+import Type from '../../../src/renderer/store/db/model/setType'
 
 describe('Set', () => {
   it('Constructor', () => {

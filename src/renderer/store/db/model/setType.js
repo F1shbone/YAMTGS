@@ -6,9 +6,9 @@ import utils from '../utils'
 
 import DB from '../db'
 
-const TABLENAME = 'Type'
+const TABLENAME = 'SetType'
 
-class Type {
+class SetType {
   constructor (type) {
     // required
     this.id = type.id
@@ -63,4 +63,4 @@ class Type {
   }
 }
 
-export default Type
+export default SetType

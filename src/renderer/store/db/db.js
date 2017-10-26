@@ -3,18 +3,18 @@ import path from 'path'
 
 import SQL from 'sql.js'
 
-import Border from './model/border'
 import Set from './model/set'
-import Type from './model/type'
+// import SetBorder from './model/setBorder'
+// import SetType from './model/setType'
 
 class Model {
   constructor () {
     this.databaseHandle = null
     this.databaseFilePath = null
 
-    this.Border = Border
     this.Set = Set
-    this.Type = Type
+    // this.SetBorder = SetBorder
+    // this.SetType = SetType
   }
 
   Create (config) {
