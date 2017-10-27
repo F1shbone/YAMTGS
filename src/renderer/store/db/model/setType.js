@@ -57,7 +57,7 @@ class SetType {
         stmt.free()
         resolve('success')
       } else {
-        reject(new Error(`Parameter must be of type 'Type'`))
+        reject(new Error(`Parameter must be of type '${TABLENAME}'`))
       }
     })
   }

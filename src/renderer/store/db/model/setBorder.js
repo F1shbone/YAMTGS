@@ -6,7 +6,7 @@ import utils from '../utils'
 
 import DB from '../db'
 
-const TABLENAME = 'SetBorder'
+const TABLENAME = 'Border'
 
 class SetBorder {
   constructor (border) {
@@ -57,7 +57,7 @@ class SetBorder {
         stmt.free()
         resolve('success')
       } else {
-        reject(new Error(`Parameter must be of type 'SetBorder'`))
+        reject(new Error(`Parameter must be of type '${TABLENAME}'`))
       }
     })
   }

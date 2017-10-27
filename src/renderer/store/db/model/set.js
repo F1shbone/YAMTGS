@@ -55,7 +55,7 @@ class Set {
             'T.name': 'type.name',
             'T.display': 'type.display'
           })
-          .join('SetBorder', 'B', 'S.border_id = B.id')
+          .join('Border', 'B', 'S.border_id = B.id')
           .join('SetType', 'T', 'S.type_id = T.id')
           .where(param)
           .toString()

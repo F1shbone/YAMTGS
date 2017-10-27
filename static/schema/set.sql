@@ -12,6 +12,6 @@ CREATE TABLE "Sets" (
 	`onlineOnly` INTEGER,
 
 	FOREIGN KEY(border_id) REFERENCES Border(id),
-	FOREIGN KEY(type_id) REFERENCES Type(id)
+	FOREIGN KEY(type_id) REFERENCES SetType(id)
 );
 COMMIT;

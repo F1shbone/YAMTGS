@@ -4,8 +4,6 @@ import path from 'path'
 import SQL from 'sql.js'
 
 import Set from './model/set'
-// import SetBorder from './model/setBorder'
-// import SetType from './model/setType'
 
 class Model {
   constructor () {
@@ -13,8 +11,6 @@ class Model {
     this.databaseFilePath = null
 
     this.Set = Set
-    // this.SetBorder = SetBorder
-    // this.SetType = SetType
   }
 
   Create (config) {
